@@ -124,26 +124,18 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 # Firebase Admin SDK
-
+import os
+import json
 import firebase_admin
 from firebase_admin import credentials
-from pathlib import Path
-import firebase_admin
-from firebase_admin import credentials
 
+# Inicializar Firebase usando variable de entorno (Render-safe)
+if not firebase_admin.apps:
+    firebase_json = os.environ.get("FIREBASE_SERVICE_ACCOUNT_JSON")
 
-FIREBASE_CREDENTIALS_PATH = (
-    Path(__file__).resolve().parent.parent / "firebase-service-account.json"
-)
+    if not firebase_json:
+        raise RuntimeError("FIREBASE_SERVICE_ACCOUNT_JSON not set")
 
-if not firebase_admin._apps:
-    cred = credentials.Certificate(FIREBASE_CREDENTIALS_PATH)
+    cred = credentials.Certificate(json.loads(firebase_json))
     firebase_admin.initialize_app(cred)
 
-
-cred = credentials.Certificate(
-    BASE_DIR / "config" / "firebase-service-account.json"
-)
-
-if not firebase_admin._apps:
-    firebase_admin.initialize_app(cred)
