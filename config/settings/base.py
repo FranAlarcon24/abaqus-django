@@ -129,8 +129,7 @@ import json
 import firebase_admin
 from firebase_admin import credentials
 
-# Inicializar Firebase usando variable de entorno (Render-safe)
-if not firebase_admin.apps:
+if not firebase_admin._apps:
     firebase_json = os.environ.get("FIREBASE_SERVICE_ACCOUNT_JSON")
 
     if not firebase_json:
@@ -138,4 +137,3 @@ if not firebase_admin.apps:
 
     cred = credentials.Certificate(json.loads(firebase_json))
     firebase_admin.initialize_app(cred)
-
