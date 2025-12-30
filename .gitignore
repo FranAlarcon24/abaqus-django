@@ -1,0 +1,12 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtualenv
+venv/
+
+# Django
+db.sqlite3
+
+# Firebase secrets
+config/firebase-service-account.json
