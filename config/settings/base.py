@@ -134,6 +134,5 @@ if not firebase_admin._apps:
     if not firebase_json:
         raise RuntimeError("FIREBASE_SERVICE_ACCOUNT_JSON not set")
 
-    cred_dict = json.loads(firebase_json)
-    cred = credentials.Certificate(cred_dict)
+    cred = credentials.Certificate(json.loads(firebase_json))
     firebase_admin.initialize_app(cred)
