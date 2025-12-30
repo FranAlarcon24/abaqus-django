@@ -122,7 +122,6 @@ STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / "staticfiles"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-
 # Firebase Admin SDK
 import os
 import json
@@ -135,5 +134,6 @@ if not firebase_admin._apps:
     if not firebase_json:
         raise RuntimeError("FIREBASE_SERVICE_ACCOUNT_JSON not set")
 
-    cred = credentials.Certificate(json.loads(firebase_json))
+    cred_dict = json.loads(firebase_json)
+    cred = credentials.Certificate(cred_dict)
     firebase_admin.initialize_app(cred)
