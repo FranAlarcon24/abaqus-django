@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-qjjf)jta5wda_=+77-99y1u3gegt)h6e16)*b@)^4wtjudfdb_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -119,6 +119,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / "staticfiles"
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 # Firebase Admin SDK
@@ -138,8 +140,6 @@ if not firebase_admin._apps:
     cred = credentials.Certificate(FIREBASE_CREDENTIALS_PATH)
     firebase_admin.initialize_app(cred)
 
-
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 cred = credentials.Certificate(
     BASE_DIR / "config" / "firebase-service-account.json"
