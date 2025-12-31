@@ -17,15 +17,12 @@ class FirebaseAuthenticationMiddleware(MiddlewareMixin):
     def process_request(self, request):
         path = request.path
 
-        # 🚫 NO proteger admin ni home
         if path == "/" or path.startswith("/admin"):
             return None
 
-        # 🚫 NO proteger nada que no sea API
         if not path.startswith("/api/"):
             return None
 
-        # 🔐 Proteger SOLO /api/*
         auth_header = request.headers.get("Authorization")
 
         if not auth_header or not auth_header.startswith("Bearer "):

@@ -37,11 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'rest_framework',
     'portfolios',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -49,8 +51,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "portfolios.authentication.FirebaseAuthenticationMiddleware",
-    "config.middleware.FirebaseAuthMiddleware",
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -131,6 +131,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 FIREBASE_CREDENTIALS_PATH = BASE_DIR / "firebase-service-account.json"
 
-if not firebase_admin._apps:
+if not firebase_admin._apps and FIREBASE_CREDENTIALS_PATH.exists():
     cred = credentials.Certificate(FIREBASE_CREDENTIALS_PATH)
     firebase_admin.initialize_app(cred)
+
+# --- CORS (desarrollo) ---
+# Permite al frontend de Vite (localhost:5173) consumir la API Django
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
+CORS_ALLOW_CREDENTIALS = True
+
+# --- Proxy externo (Abaqus API base) ---
+EXTERNAL_API_BASE = "https://api.test.pace.abaqus.cl"
